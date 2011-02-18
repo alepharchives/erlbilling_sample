@@ -1,0 +1,3 @@
+-record(amounts, {amount_available = 0, amount_reserved = 0}).
+-record(account, {number, amount = 0}).
+-record(transaction, {guid, account_number, amount, type}).

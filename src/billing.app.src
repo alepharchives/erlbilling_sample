@@ -1,0 +1,9 @@
+%% -*- erlang -*-
+{application, billing,
+ [{description, "billing"},
+  {vsn, "0.1"},
+  {modules, []},
+  {registered, []},
+  {mod, {'billing_app', []}},
+  {env, []},
+  {applications, [kernel, stdlib, crypto]}]}.

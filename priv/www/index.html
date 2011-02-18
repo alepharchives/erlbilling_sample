@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <title>Billing</title>
+    <script type="text/javascript" src="files/jquery.js"></script>
+    <script type="text/javascript" src="files/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="files/style.css">
+  </head>
+  <body>
+
+    <div style="display: none;" id="create_div">
+      <form id="create_form" action="">
+        <label for="new_account_number">Account: </label>
+        <input id="new_account_number" class="numbersOnly" type="text"/>
+        <br/>
+        <label for="new_amount">Amount: </label>
+        <input id="new_amount" class="numbersOnly" type="text"/>
+        <br/>
+	<p class="right">
+          <input id="new_accept" type="submit" value="Accept"/>
+          <input id="new_cancel" type="button" value="Cancel"/>
+        </p>
+        <div id="create_error"></div>
+      </form>
+    </div>
+
+    <div id="megadiv">
+      <form id="search_form" action="">
+        <input id="show_account" type="submit" value="Show"/>
+        <input id="delete_account" type="button" value="Delete"/>
+        <input id="create_account" type="button" value="New"/>
+        <br/>
+        <input id="account_number" class="numbersOnly" type="text"/>
+      </form>
+
+      <div id="msg">
+        Ready.
+      </div>
+      <br/>
+
+      <div id="results" align="center">
+        <table class="sexy">
+          <tr>
+            <td>Available:</td>
+            <td align="right"><div id="results_available"></div></td>
+          </tr>
+          <tr>
+            <td>Reserved:</td>
+            <td align="right"><div id="results_reserved"></div></td>
+          </tr>
+          <tr>
+            <td>Total:</td>
+            <td align="right"><div id="results_total"></div></td>
+          </tr>
+        </table>
+
+        <br/>
+        <div id="transactions"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
