@@ -1,0 +1,12 @@
+#!/usr/bin/env escript
+
+main(_) ->
+    EnvelopeXsd = "soap.xsd",
+    BodyXsd = "soap_in.xsd",
+    ResultXsd = "soap_out.xsd",
+    {ok, SoapModel} = erlsom:compile_xsd_file(EnvelopeXsd, [{prefix, "sp"}]),
+    {ok, ModelIn} = erlsom:add_xsd_file(BodyXsd, [{prefix, "in"}], SoapModel),
+    {ok, ModelOut} = erlsom:add_xsd_file(ResultXsd, [{prefix, "out"}], SoapModel),
+    erlsom:write_hrl(SoapModel, "soap.hrl"),
+    erlsom:write_hrl(ModelIn, "soap_in.hrl"),
+    erlsom:write_hrl(ModelOut, "soap_out.hrl").

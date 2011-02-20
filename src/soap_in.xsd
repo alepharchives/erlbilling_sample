@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.example.org"
+            xmlns="http://www.example.org"
+            elementFormDefault="qualified">
+
+  <xsd:element name="ReserveAmount" type="ReserveAmountArgs"/>
+  <xsd:element name="ChargeAmount" type="ChargeAmountArgs"/>
+  <xsd:element name="RefillAmount" type="RefillAmountArgs"/>
+
+  <xsd:complexType name="ReserveAmountArgs">
+    <xsd:sequence>
+      <xsd:element name="AccountNumber" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="Amount" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ChargeAmountArgs">
+    <xsd:sequence>
+      <xsd:element name="AccountNumber" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="Amount" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="RefillAmountArgs">
+    <xsd:sequence>
+      <xsd:element name="AccountNumber" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="Amount" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:element name="ConfirmTransaction" type="ConfirmTransactionArgs"/>
+  <xsd:element name="CancelTransaction" type="CancelTransactionArgs"/>
+
+  <xsd:complexType name="ConfirmTransactionArgs">
+    <xsd:sequence>
+      <xsd:element name="TransactionID" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="CancelTransactionArgs">
+    <xsd:sequence>
+      <xsd:element name="TransactionID" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+</xsd:schema>

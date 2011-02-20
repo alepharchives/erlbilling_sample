@@ -26,6 +26,10 @@ loop(Req, DocRoot) ->
                 end;
             'POST' ->
                 case Path of
+                    "soap" ->
+                        Request = binary_to_list(Req:recv_body()),
+                        {ok, Msg} = billing_soap:soap_op(Request),
+                        Req:ok({"application/soap+xml", [], Msg});
                     "json" ->
                         {struct, Struct} = mochijson2:decode(proplists:get_value("json",
                                                                                  Req:parse_post())),
