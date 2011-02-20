@@ -6,8 +6,10 @@
 
 message_of(R) ->
     {_, Result} = R,
-    {struct, [{<<"message">>, Result}]}.
+    {struct, [{message, Result}]}.
 
+%% @spec transaction_to_table_row(Transaction) -> string()
+%% @doc Convert transaction to html table row.
 transaction_to_table_row(T) ->
     #transaction{guid   = Guid,
                  amount = Amount,
@@ -28,14 +30,19 @@ transaction_to_table_row(T) ->
                  ++ ["<td width=\"160\">" ++ Button ++ "</td>"]
                  ++ ["<tr/>\n"]).
 
+%% @spec confirm(Json) -> {struct, [{message, ok}]} | {struct, [{message, ErrorReason::string()}]}
+%% @doc Confirm transaction.
 confirm(S) ->
     TransactionID = binary_to_list(proplists:get_value(<<"guid">>, S)),
     message_of(billing_db:confirm_transaction(TransactionID)).
 
+%% @spec cancel(Json) -> {struct, [{message, ok}]} | {struct, [{message, ErrorReason::string()}]}
+%% @doc Cancel transaction.
 cancel(S) ->
     TransactionID = binary_to_list(proplists:get_value(<<"guid">>, S)),
     message_of(billing_db:cancel_transaction(TransactionID)).
 
+%% @doc Search for an account.
 search(S) ->
     AccountNumber = proplists:get_value(<<"account_number">>, S),
     case billing_db:get_amounts(AccountNumber) of
@@ -43,10 +50,10 @@ search(S) ->
             {ok, Transactions} = billing_db:get_transactions(AccountNumber),
             #amounts{amount_available = Available, amount_reserved = Reserved} = Account,
             Transaction_Struct = fun(T) -> transaction_to_table_row(T) end,
-            {struct, [{<<"message">>, ok},
-                      {<<"amount_available">>, Available},
-                      {<<"amount_reserved">>, Reserved},
-                      {<<"transactions">>,
+            {struct, [{message, ok},
+                      {amount_available, Available},
+                      {amount_reserved, Reserved},
+                      {transactions,
                        list_to_binary("<table>"
                                       ++ "<tr><td>GUID</td><td>Amount</td><td>Type</td></tr>\n"
                                       ++ lists:concat(lists:map(Transaction_Struct,
@@ -57,11 +64,15 @@ search(S) ->
             message_of(Fail)
     end.
 
+%% @spec create(Json) -> {struct, [{message, ok}]} | {struct, [{message, ErrorReason::string()}]}
+%% @doc Create new account.
 create(S) ->
     AccountNumber = proplists:get_value(<<"account_number">>, S),
     Amount = proplists:get_value(<<"amount">>, S),
     message_of(billing_db:add_account(AccountNumber, Amount)).
 
+%% @spec delete(Json) -> {struct, [{message, ok}]} | {struct, [{message, ErrorReason::string()}]}
+%% @doc Remove account from database.
 delete(S) ->
     AccountNumber = proplists:get_value(<<"account_number">>, S),
     message_of(billing_db:delete_account(AccountNumber)).
