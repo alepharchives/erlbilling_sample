@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+  <soap:Body>
+    <i:ChargeAmount xmlns:i="http://www.example.org">
+      <i:AccountNumber>1</i:AccountNumber>
+      <i:Amount>1</i:Amount>
+    </i:ChargeAmount>
+  </soap:Body>
+</soap:Envelope>

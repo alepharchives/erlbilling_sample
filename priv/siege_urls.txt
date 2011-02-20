@@ -1,0 +1,3 @@
+http://localhost:8080/soap POST <soap_test_siege.xml
+http://localhost:8080/soap POST <soap_test_siege2.xml
+http://localhost:8080/soap POST <soap_test_siege3.xml

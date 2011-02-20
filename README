@@ -10,6 +10,10 @@ Compiling:
 Running:
   $ ./start-dev.sh
 
+Testing SOAP handlers performance:
+  $ cd priv
+  $ siege -R siegerc
+
 Web ui runs on http://localhost:8080
 JSON requests --> http://localhost:8080/json
 SOAP requests --> http://localhost:8080/soap

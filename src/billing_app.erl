@@ -4,8 +4,8 @@
 -behaviour(application).
 -export([start/2, stop/1]).
 
--define(NUM_ACCOUNTS, 1000).
--define(NUM_TRANSACTIONS_FOR_ACCOUNT, 3).
+-define(NUM_ACCOUNTS, 1000000).
+-define(NUM_TRANSACTIONS_FOR_ACCOUNT, 0).
 
 %% @spec start(_Type, _StartArgs) -> ServerRet
 %% @doc application start callback for billing.
