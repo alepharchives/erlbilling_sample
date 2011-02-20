@@ -12,7 +12,7 @@
          cancel_transaction/1,
          refill_amount/2,
          get_amounts/1,
-         add_test_records/2]).
+         add_test_records/3]).
 
 -export([start_link/0, init/1,
          handle_call/3, handle_cast/2, handle_info/2,
@@ -81,11 +81,11 @@ add_test_transactions(NumAccounts, NumTransactionsForAccount) ->
     io:format("done~n").
 
 %% this one is for debugging
-add_test_records(NumAccounts, NumTransactionsForAccount) ->
+add_test_records(NumAccounts, NumTransactionsForAccount, NumAccountsToAddTransactions) ->
     if NumAccounts > 0 ->
             add_test_accounts(NumAccounts),
             if NumTransactionsForAccount > 0 ->
-                    add_test_transactions(NumAccounts, NumTransactionsForAccount);
+                    add_test_transactions(NumAccountsToAddTransactions, NumTransactionsForAccount);
                true -> ok
             end;
        true -> ok
