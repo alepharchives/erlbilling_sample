@@ -12,7 +12,7 @@
          cancel_transaction/1,
          refill_amount/2,
          get_amounts/1,
-         add_test_records/1]).
+         add_test_records/2]).
 
 -export([start_link/0, init/1,
          handle_call/3, handle_cast/2, handle_info/2,
@@ -54,7 +54,15 @@ get_amounts(AccountNumber) ->
     gen_server:call(?MODULE, {'get_amounts', AccountNumber}).
 
 %% this one is for debugging
-add_test_records(NumRecords) ->
+add_test_accounts(NumAccounts) ->
+    WriteRandom = fun(N) ->
+                          mnesia:dirty_write(#account{number = N, amount =  random:uniform(1000)})
+                  end,
+    io:format("adding test records..."),
+    lists:foreach(WriteRandom, lists:seq(0, NumAccounts)),
+    io:format("done~n").
+
+add_test_transactions(NumAccounts, NumTransactionsForAccount) ->
     %% random transactions for an account
     GenerateTrans = fun(N) ->
                             R = random:uniform(100),
@@ -65,19 +73,17 @@ add_test_records(NumRecords) ->
                                 end,
                             for_account(N, F, dirty)
                     end,
-    WriteRandom = fun(N) ->
-                          mnesia:dirty_write(#account{number = N, amount =  random:uniform(1000)})
-                  end,
     %% random accounts
     RandomTransactions = fun(N) -> lists:foreach(fun(_) -> GenerateTrans(N) end,
-                                                 lists:seq(0, random:uniform(5)))
+                                                 lists:seq(0, random:uniform(NumTransactionsForAccount)))
                         end,
-    io:format("adding test records..."),
-    lists:foreach(WriteRandom, lists:seq(0, NumRecords)),
-    io:format("done~n"),
     io:format("adding test transactions..."),
-    lists:foreach(RandomTransactions, lists:seq(0, NumRecords)),
+    lists:foreach(RandomTransactions, lists:seq(0, NumAccounts)),
     io:format("done~n").
+
+add_test_records(NumAccounts, NumTransactionsForAccount) ->
+    add_test_accounts(NumAccounts),
+    add_test_transactions(NumAccounts, NumTransactionsForAccount).
 
 %%----------------
 %% private

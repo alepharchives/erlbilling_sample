@@ -1,6 +1,6 @@
 Small "billing" sample written in Erlang (mnesia, gen_server, mochiweb).
 
-Number of test records is defined in src/billing_app.erl (NUM_RECORDS).
+Number of test records is defined in src/billing_app.erl (NUM_ACCOUNTS).
 Dependencies are: erlang, mochiweb, rebar.
 To compile the sources, run "rebar compile".
 To start the server, run "./start-dev.sh", web ui runs on http://localhost:8080
