@@ -1,7 +1,8 @@
 Small "billing" sample written in Erlang (mnesia, gen_server, mochiweb, erlsom).
 
 Dependencies:
-  git
+  git (to pull erlang-related dependencies)
+  siege (to test soap handlers performance)
 
 Compiling:
   $ ./rebar get-deps
