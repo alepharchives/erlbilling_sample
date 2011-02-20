@@ -82,8 +82,14 @@ add_test_transactions(NumAccounts, NumTransactionsForAccount) ->
     io:format("done~n").
 
 add_test_records(NumAccounts, NumTransactionsForAccount) ->
-    add_test_accounts(NumAccounts),
-    add_test_transactions(NumAccounts, NumTransactionsForAccount).
+    if NumAccounts > 0 ->
+            add_test_accounts(NumAccounts),
+            if NumTransactionsForAccount > 0 ->
+                    add_test_transactions(NumAccounts, NumTransactionsForAccount);
+               true -> ok
+            end;
+       true -> ok
+    end.
 
 %%----------------
 %% private
