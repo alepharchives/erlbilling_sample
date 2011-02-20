@@ -53,7 +53,6 @@ refill_amount(AccountNumber, Amount) ->
 get_amounts(AccountNumber) ->
     gen_server:call(?MODULE, {'get_amounts', AccountNumber}).
 
-%% this one is for debugging
 add_test_accounts(NumAccounts) ->
     WriteRandom = fun(N) ->
                           mnesia:dirty_write(#account{number = N, amount =  random:uniform(1000)})
@@ -81,6 +80,7 @@ add_test_transactions(NumAccounts, NumTransactionsForAccount) ->
     lists:foreach(RandomTransactions, lists:seq(0, NumAccounts)),
     io:format("done~n").
 
+%% this one is for debugging
 add_test_records(NumAccounts, NumTransactionsForAccount) ->
     if NumAccounts > 0 ->
             add_test_accounts(NumAccounts),
