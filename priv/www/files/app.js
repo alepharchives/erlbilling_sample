@@ -44,7 +44,10 @@ function callback_show (json) {
     $("#results_available").text(json[0].amount_available);
     $("#results_reserved").text(json[0].amount_reserved);
     $("#results_total").text(json[0].amount_available + json[0].amount_reserved);
-    $("#transactions").html(json[0].transactions);
+
+    if (json[0].transactions)
+        $("#transactions").html(json[0].transactions);
+
     show_results(true);
 }
 
@@ -57,22 +60,44 @@ function update_results () {
     post(json, "/json", callback_show);
 }
 
-function confirm_transaction(guid) {
+function update_amounts () {
+    var json = {
+        "action"         : "amounts",
+        "account_number" : parseInt($("#account_number").val())
+    };
+
+    post(json, "/json", callback_show);
+}
+
+function confirm_transaction(self) {
+    var guid = self.parent().parent().attr("id");
     var json = {
         "action" : "confirm",
         "guid"   : guid
     };
 
-    post(json, "/json", update_results)
+    post(json, "/json", function(json) {
+        if (json[0].message == "ok") {
+            self.parent().html("");
+            $("#" + guid + " td:nth-child(3)").text("charged");
+            update_amounts();
+        }
+    });
 }
 
-function cancel_transaction(guid) {
+function cancel_transaction(self) {
+    var guid = self.parent().parent().attr("id");
     var json = {
         "action" : "cancel",
         "guid"   : guid
     };
 
-    post(json, "/json", update_results)
+    post(json, "/json", function(json) {
+        if (json[0].message == "ok") {
+            $("#" + guid).remove();
+            update_amounts();
+        }
+    });
 }
 
 function callback_create(json) {
