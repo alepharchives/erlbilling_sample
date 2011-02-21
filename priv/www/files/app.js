@@ -86,7 +86,8 @@ function confirm_transaction(self) {
 }
 
 function cancel_transaction(self) {
-    var guid = self.parent().parent().parent().attr("id");
+    var row = self.parent().parent().parent();
+    var guid = row.attr("id");
     var json = {
         "action" : "cancel",
         "guid"   : guid
@@ -94,10 +95,9 @@ function cancel_transaction(self) {
 
     post(json, "/json", function(json) {
         if (json[0].message == "ok") {
-            var row = $("#" + guid);
-            row.children("td").each(function () {
+            row.fadeOut(500).children("td").each(function () {
                 $(this).children("div").slideUp(600, function() {
-                    $(this).closest('tr').remove();
+                    row.remove();
                 });
             });
 
