@@ -42,6 +42,7 @@ cancel(S) ->
     TransactionID = binary_to_list(proplists:get_value(<<"guid">>, S)),
     message_of(billing_db:cancel_transaction(TransactionID)).
 
+%% @doc Only return amounts for an account.
 amounts(S) ->
     AccountNumber = proplists:get_value(<<"account_number">>, S),
     case billing_db:get_amounts(AccountNumber) of
