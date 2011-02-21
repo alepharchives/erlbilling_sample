@@ -24,10 +24,10 @@ transaction_to_table_row(T) ->
                  _ -> ""
              end,
     lists:concat(["<tr id='" ++ Guid ++ "'>"]
-                 ++ lists:foldl(fun(E, Acc) -> Acc ++ ["<td>", E, "</td>"] end,
+                 ++ lists:foldl(fun(E, Acc) -> Acc ++ ["<td><div>", E, "<div/></td>"] end,
                                 [],
                                 [Guid, Amount, Type])
-                 ++ ["<td width=\"160\">" ++ Button ++ "</td>"]
+                 ++ ["<td width=\"160\"><div>" ++ Button ++ "</div></td>"]
                  ++ ["<tr/>\n"]).
 
 %% @spec confirm(Json) -> {struct, [{message, ok}]} | {struct, [{message, ErrorReason::string()}]}
@@ -66,7 +66,7 @@ search(S) ->
                       {amount_available, Available},
                       {amount_reserved, Reserved},
                       {transactions,
-                       list_to_binary("<table>"
+                       list_to_binary("<table id='transactions'>"
                                       ++ "<tr><td>GUID</td><td>Amount</td><td>Type</td></tr>\n"
                                       ++ lists:concat(lists:map(Transaction_Struct,
                                                                 Transactions))

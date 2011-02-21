@@ -70,7 +70,7 @@ function update_amounts () {
 }
 
 function confirm_transaction(self) {
-    var guid = self.parent().parent().attr("id");
+    var guid = self.parent().parent().parent().attr("id");
     var json = {
         "action" : "confirm",
         "guid"   : guid
@@ -78,7 +78,7 @@ function confirm_transaction(self) {
 
     post(json, "/json", function(json) {
         if (json[0].message == "ok") {
-            self.parent().html("");
+            self.parent().text("");
             $("#" + guid + " td:nth-child(3)").text("charged");
             update_amounts();
         }
@@ -86,7 +86,7 @@ function confirm_transaction(self) {
 }
 
 function cancel_transaction(self) {
-    var guid = self.parent().parent().attr("id");
+    var guid = self.parent().parent().parent().attr("id");
     var json = {
         "action" : "cancel",
         "guid"   : guid
@@ -94,7 +94,13 @@ function cancel_transaction(self) {
 
     post(json, "/json", function(json) {
         if (json[0].message == "ok") {
-            $("#" + guid).remove();
+            var row = $("#" + guid);
+            row.children("td").each(function () {
+                $(this).children("div").slideUp(600, function() {
+                    $(this).closest('tr').remove();
+                });
+            });
+
             update_amounts();
         }
     });
