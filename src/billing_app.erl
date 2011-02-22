@@ -4,20 +4,10 @@
 -behaviour(application).
 -export([start/2, stop/1]).
 
--define(NUM_ACCOUNTS, 1000000).
--define(NUM_TRANSACTIONS_FOR_ACCOUNT, 30).
--define(NUM_ACCOUNTS_TO_ADD_TRANSACTIONS, 1000).
-
 %% @spec start(_Type, _StartArgs) -> ServerRet
 %% @doc application start callback for billing.
 start(_Type, _StartArgs) ->
     billing_deps:ensure(),
-    billing_db:start_link(),
-    %billing_db_events:start_link(),
-    billing_db:add_test_records(?NUM_ACCOUNTS,
-                                ?NUM_TRANSACTIONS_FOR_ACCOUNT,
-                                ?NUM_ACCOUNTS_TO_ADD_TRANSACTIONS),
-    billing_soap:start_link(),
     billing_sup:start_link().
 
 %% @spec stop(_State) -> ServerRet

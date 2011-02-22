@@ -19,4 +19,4 @@ Web ui runs on http://localhost:8080
 JSON requests --> http://localhost:8080/json
 SOAP requests --> http://localhost:8080/soap
 
-Number of test records is defined in src/billing_app.erl (NUM_ACCOUNTS).
+Number of test records is defined in src/billing_db.erl (NUM_ACCOUNTS).

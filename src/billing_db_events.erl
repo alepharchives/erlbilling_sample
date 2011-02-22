@@ -2,7 +2,7 @@
 -author("Serge Ziryukin <ftrvxmtrx@gmail.com>").
 -behaviour(gen_event).
 
--export([start_link/0,
+-export([start/0,
          get_amounts/0]).
 
 -export([init/1,
@@ -17,7 +17,7 @@
 get_amounts() ->
     gen_event:call({global, ?MODULE}, ?MODULE, 'get_amounts').
 
-start_link() ->
+start() ->
     {ok, Pid} = gen_event:start_link({global, ?MODULE}),
     gen_event:add_handler(Pid, ?MODULE, []).
 

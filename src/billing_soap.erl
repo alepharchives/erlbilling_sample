@@ -4,7 +4,7 @@
 
 -export([soap_op/1]).
 
--export([start_link/0, init/1,
+-export([start/0, init/1,
          handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3]).
 
@@ -32,7 +32,7 @@
 %% we store both models in module's state for soap handling
 -record(state, {model_in, model_out}).
 
-start_link() ->
+start() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 soap_op(Xml) ->

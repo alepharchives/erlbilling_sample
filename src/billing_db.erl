@@ -11,16 +11,19 @@
          confirm_transaction/1,
          cancel_transaction/1,
          refill_amount/2,
-         get_amounts/1,
-         add_test_records/3]).
+         get_amounts/1]).
 
--export([start_link/0, init/1,
+-export([start/0, init/1,
          handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3]).
 
 -include_lib("stdlib/include/qlc.hrl").
 -include_lib("billing_records.hrl").
 -record(state, {}).
+
+-define(NUM_ACCOUNTS, 1000000).
+-define(NUM_TRANSACTIONS_FOR_ACCOUNT, 30).
+-define(NUM_ACCOUNTS_TO_ADD_TRANSACTIONS, 1000).
 
 %%----------------
 %% public
@@ -153,13 +156,16 @@ for_transaction(TransactionID, Fun) ->
 %% server
 %%----------------
 
-start_link() ->
+start() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 init(_Args) ->
     mnesia:create_schema([node()]),
     mnesia:create_table(account, [{attributes, record_info(fields, account)}]),
     mnesia:create_table(transaction, [{attributes, record_info(fields, transaction)}]),
+    add_test_records(?NUM_ACCOUNTS,
+                     ?NUM_TRANSACTIONS_FOR_ACCOUNT,
+                     ?NUM_ACCOUNTS_TO_ADD_TRANSACTIONS),
     {ok, #state{}}.
 
 %% contruct a closure with specific type of transaction and its amount

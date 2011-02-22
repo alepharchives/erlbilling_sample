@@ -37,7 +37,13 @@ upgrade() ->
 %% @doc supervisor callback.
 init([]) ->
     Web = web_specs(billing_web, 8080),
-    Processes = [Web],
+    Db = {billing_db,
+          {billing_db, start, []},
+          permanent, 5000, worker, [billing_db]},
+    Soap = {billing_soap,
+            {billing_soap, start, []},
+            permanent, 5000, worker, [billing_soap]},
+    Processes = [Db, Soap, Web],
     Strategy = {one_for_one, 10, 10},
     {ok,
      {Strategy, lists:flatten(Processes)}}.
