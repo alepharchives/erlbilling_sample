@@ -273,7 +273,6 @@ handle_info(_Msg, State) ->
     {noreply, State}.
 
 terminate(_Reason, _State) ->
-    mnesia:stop(),
     ok.
 
 code_change(_OldVersion, State, _Extra) ->
